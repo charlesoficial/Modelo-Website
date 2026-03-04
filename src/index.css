@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 60%;
+
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 0 0% 100%;
+
+    --radius: 0.5rem;
+
+    --gold: 40 70% 55%;
+    --gold-foreground: 0 0% 0%;
+
+    --sidebar-background: 0 0% 3%;
+    --sidebar-foreground: 0 0% 90%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 0 0% 10%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 0 0% 100%;
+  }
+
+  .dark {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 0 0% 100%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  .card-plan {
+    @apply relative bg-card border border-border rounded-lg p-3 sm:p-6 transition-all duration-300;
+  }
+
+  .card-plan:hover {
+    @apply border-primary/40;
+    box-shadow: 0 0 30px hsla(0, 0%, 100%, 0.05);
+  }
+
+  .card-plan-featured {
+    @apply card-plan border-primary/50;
+    box-shadow: 0 0 40px hsla(0, 0%, 100%, 0.08);
+  }
+
+  .card-plan-featured:hover {
+    box-shadow: 0 0 50px hsla(0, 0%, 100%, 0.12);
+  }
+
+  .blur-content {
+    @apply relative overflow-hidden rounded-lg;
+  }
+
+  .blur-content::after {
+    content: '';
+    @apply absolute inset-0;
+    backdrop-filter: blur(20px);
+    background: hsla(0, 0%, 0%, 0.3);
+  }
+
+  .badge-popular {
+    @apply absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-semibold px-4 py-1 rounded-full tracking-wider uppercase;
+  }
+
+  .btn-subscribe {
+    @apply w-full py-3 rounded-md font-medium text-sm tracking-wide transition-all duration-300 border;
+  }
+
+  .btn-subscribe-default {
+    @apply btn-subscribe bg-transparent border-border text-foreground hover:bg-primary hover:text-primary-foreground;
+  }
+
+  .btn-subscribe-featured {
+    @apply btn-subscribe bg-primary text-primary-foreground border-primary hover:bg-transparent hover:text-foreground;
+  }
+}
+
+@layer utilities {
+  .text-gold {
+    color: hsl(var(--gold));
+  }
+}
+
+@layer components {
+  .admin-input {
+    @apply w-full bg-card border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all;
+  }
+
+  .admin-label {
+    @apply block text-xs font-medium text-muted-foreground mb-1.5 uppercase tracking-wider;
+  }
+
+  .admin-save-btn {
+    @apply w-full bg-primary text-primary-foreground font-semibold py-3.5 rounded-xl text-sm transition-all hover:opacity-90 active:scale-95;
+  }
+}
+
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-8px);
+  }
+
+  40% {
+    transform: translateX(8px);
+  }
+
+  60% {
+    transform: translateX(-5px);
+  }
+
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
