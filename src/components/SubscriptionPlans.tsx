@@ -45,7 +45,7 @@ const PlanCard = ({ plan, index }: { plan: Plan; index: number }) => {
       </ul>
 
       <ul className="space-y-1 mb-3 sm:hidden">
-        {plan.features.slice(0, 2).map((feature) => (
+        {plan.features.map((feature) => (
           <li key={feature} className="flex items-start gap-1 text-[10px] text-muted-foreground">
             <Check className="w-3 h-3 text-primary mt-0.5 flex-shrink-0" />
             <span>{feature}</span>
