@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Camera, Trash2, Image as ImageIcon } from "lucide-react";
+import { Camera, Trash2, Image as ImageIcon, CheckCircle2, Save } from "lucide-react";
 import { useSiteConfig } from "@/lib/siteConfig";
 
 const AdminMedia = () => {
@@ -36,34 +36,38 @@ const AdminMedia = () => {
     };
 
     return (
-        <div className="space-y-6">
-            <div className="bg-zinc-900 rounded-2xl p-5 shadow-lg space-y-4">
-                <div className="flex flex-col gap-1">
-                    <h2 className="text-lg font-bold text-white">Mídias de Prévia</h2>
-                    <p className="text-xs text-zinc-500">Essas imagens aparecem borradas para quem não é assinante.</p>
-                </div>
+        <div className="space-y-[24px]">
+            <div className="flex flex-col px-1">
+                <h2 className="text-[17px] font-bold text-white leading-tight">Mídias de Prévia</h2>
+                <p className="text-[12px] text-zinc-500">Imagens que aparecem borradas para visitantes</p>
+            </div>
+
+            <div className="admin-card space-y-[14px]">
+                <label className="admin-label">Galeria de Exposição</label>
 
                 <div className="grid grid-cols-1 gap-4">
                     {images.map((img, i) => (
-                        <div key={i} className="group relative aspect-video w-full bg-zinc-800 rounded-2xl overflow-hidden border border-zinc-700">
+                        <div key={i} className="group relative aspect-video w-full bg-black/40 rounded-[14px] overflow-hidden border border-white/5">
                             {img ? (
                                 <>
-                                    <img src={img} className="w-full h-full object-cover" alt={`Preview ${i + 1}`} />
-                                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                                    <img src={img} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt={`Preview ${i + 1}`} />
+                                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-[2px]">
                                         <button
                                             onClick={() => {
                                                 currentIdx.current = i;
                                                 fileInputRef.current?.click();
                                             }}
-                                            className="p-3 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/20 transition-all border border-white/20"
+                                            className="w-12 h-12 flex items-center justify-center bg-white/10 backdrop-blur-md rounded-xl text-white hover:bg-white/20 transition-all border border-white/20"
+                                            title="Trocar Imagem"
                                         >
-                                            <Camera className="w-6 h-6" />
+                                            <Camera size={22} />
                                         </button>
                                         <button
                                             onClick={() => removeImage(i)}
-                                            className="p-3 bg-red-500/20 backdrop-blur-md rounded-full text-red-500 hover:bg-red-500/40 transition-all border border-red-500/30"
+                                            className="w-12 h-12 flex items-center justify-center bg-red-500/20 backdrop-blur-md rounded-xl text-red-500 hover:bg-red-500/40 transition-all border border-red-500/30"
+                                            title="Remover"
                                         >
-                                            <Trash2 className="w-6 h-6" />
+                                            <Trash2 size={22} />
                                         </button>
                                     </div>
                                 </>
@@ -73,12 +77,12 @@ const AdminMedia = () => {
                                         currentIdx.current = i;
                                         fileInputRef.current?.click();
                                     }}
-                                    className="w-full h-full flex flex-col items-center justify-center gap-3 text-zinc-500 hover:text-orange-500 hover:bg-zinc-800/80 transition-all"
+                                    className="w-full h-full flex flex-col items-center justify-center gap-3 text-zinc-600 hover:text-[#ff7a1a] hover:bg-white/5 transition-all group"
                                 >
-                                    <div className="w-12 h-12 rounded-2xl bg-zinc-900 flex items-center justify-center border border-zinc-700 group-hover:border-orange-500/30 transition-all">
-                                        <ImageIcon className="w-6 h-6" />
+                                    <div className="w-12 h-12 rounded-2xl bg-zinc-900 flex items-center justify-center border border-white/5 group-hover:border-[#ff7a1a]/30 transition-all">
+                                        <ImageIcon size={24} strokeWidth={1.5} />
                                     </div>
-                                    <span className="text-xs font-bold uppercase tracking-widest">Adicionar Foto {i + 1}</span>
+                                    <span className="text-[11px] font-bold uppercase tracking-wider">Adicionar Espaço {i + 1}</span>
                                 </button>
                             )}
                         </div>
@@ -98,12 +102,19 @@ const AdminMedia = () => {
                 }}
             />
 
-            <button
-                onClick={handleSave}
-                className="w-full bg-orange-500 hover:bg-orange-600 transition-colors py-4 rounded-2xl font-bold text-white shadow-lg shadow-orange-500/20 uppercase tracking-widest text-sm"
-            >
-                {saved ? "✓ Salvo com sucesso!" : "Salvar Mídias"}
-            </button>
+            <div className="pt-2">
+                <button
+                    onClick={handleSave}
+                    disabled={saved}
+                    className={`admin-btn-primary w-full gap-2 transition-all ${saved ? "bg-green-600 shadow-[0_0_15px_rgba(22,163,74,0.3)]" : ""}`}
+                >
+                    {saved ? (
+                        <><CheckCircle2 size={18} /> Mídias Atualizadas!</>
+                    ) : (
+                        <><Save size={18} /> Salvar Galeria</>
+                    )}
+                </button>
+            </div>
         </div>
     );
 };

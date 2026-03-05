@@ -15,10 +15,12 @@
     --popover: 0 0% 5%;
     --popover-foreground: 0 0% 100%;
 
-    --primary: 0 0% 100%;
+    --primary: 24 100% 55%;
+    /* #ff7a1a */
     --primary-foreground: 0 0% 0%;
 
-    --secondary: 0 0% 10%;
+    --secondary: 0 0% 17%;
+    /* #2b2b2b */
     --secondary-foreground: 0 0% 100%;
 
     --muted: 0 0% 12%;
@@ -31,54 +33,24 @@
     --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 0 0% 100%;
+    --input: 0 0% 8%;
+    /* #151515 approx */
+    --ring: 24 100% 55%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
     --gold: 40 70% 55%;
     --gold-foreground: 0 0% 0%;
-
-    --sidebar-background: 0 0% 3%;
-    --sidebar-foreground: 0 0% 90%;
-    --sidebar-primary: 0 0% 100%;
-    --sidebar-primary-foreground: 0 0% 0%;
-    --sidebar-accent: 0 0% 10%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 0 0% 15%;
-    --sidebar-ring: 0 0% 100%;
-  }
-
-  .dark {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
-    --card: 0 0% 5%;
-    --card-foreground: 0 0% 100%;
-    --popover: 0 0% 5%;
-    --popover-foreground: 0 0% 100%;
-    --primary: 0 0% 100%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 60%;
-    --accent: 0 0% 15%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 0 0% 100%;
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-white/5;
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-black text-white font-sans antialiased;
     font-family: 'Inter', sans-serif;
   }
 
@@ -92,22 +64,55 @@
 }
 
 @layer components {
+
+  /* Admin specific components */
+  .admin-card {
+    background: linear-gradient(180deg, #111 0%, #0b0b0b 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 18px;
+    @apply p-[18px] shadow-sm;
+  }
+
+  .admin-input {
+    background-color: #151515;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    height: 40px;
+    @apply w-full px-3 text-[14px] text-white placeholder:text-zinc-600 focus:outline-none focus:border-[#ff7a1a] transition-colors;
+  }
+
+  .admin-label {
+    @apply block text-[12px] font-medium text-zinc-500 mb-1.5 uppercase tracking-wide;
+  }
+
+  .admin-btn-primary {
+    background-color: #ff7a1a;
+    border-radius: 12px;
+    height: 42px;
+    box-shadow: 0 0 15px rgba(255, 122, 26, 0.2);
+    @apply flex items-center justify-center px-4 text-[14px] font-semibold text-black transition-all hover:opacity-90 active:scale-95;
+  }
+
+  .admin-btn-secondary {
+    background-color: #2b2b2b;
+    border-radius: 12px;
+    height: 42px;
+    @apply flex items-center justify-center px-4 text-[14px] font-medium text-white transition-all hover:bg-zinc-800 active:scale-95;
+  }
+
+  /* Public page components */
   .card-plan {
     @apply relative bg-card border border-border rounded-lg p-3 sm:p-6 transition-all duration-300;
   }
 
   .card-plan:hover {
     @apply border-primary/40;
-    box-shadow: 0 0 30px hsla(0, 0%, 100%, 0.05);
+    box-shadow: 0 0 30px hsla(24, 100%, 55%, 0.1);
   }
 
   .card-plan-featured {
     @apply card-plan border-primary/50;
-    box-shadow: 0 0 40px hsla(0, 0%, 100%, 0.08);
-  }
-
-  .card-plan-featured:hover {
-    box-shadow: 0 0 50px hsla(0, 0%, 100%, 0.12);
+    box-shadow: 0 0 40px hsla(24, 100%, 55%, 0.15);
   }
 
   .blur-content {
@@ -130,31 +135,17 @@
   }
 
   .btn-subscribe-default {
-    @apply btn-subscribe bg-transparent border-border text-foreground hover:bg-primary hover:text-primary-foreground;
+    @apply btn-subscribe bg-transparent border-border text-foreground hover:bg-primary hover:text-black;
   }
 
   .btn-subscribe-featured {
-    @apply btn-subscribe bg-primary text-primary-foreground border-primary hover:bg-transparent hover:text-foreground;
+    @apply btn-subscribe bg-primary text-black border-primary hover:bg-transparent hover:text-foreground;
   }
 }
 
 @layer utilities {
   .text-gold {
     color: hsl(var(--gold));
-  }
-}
-
-@layer components {
-  .admin-input {
-    @apply w-full bg-card border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all;
-  }
-
-  .admin-label {
-    @apply block text-xs font-medium text-muted-foreground mb-1.5 uppercase tracking-wider;
-  }
-
-  .admin-save-btn {
-    @apply w-full bg-primary text-primary-foreground font-semibold py-3.5 rounded-xl text-sm transition-all hover:opacity-90 active:scale-95;
   }
 }
 
@@ -180,6 +171,27 @@
   80% {
     transform: translateX(5px);
   }
+}
+
+@keyframes tele-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(34, 158, 217, 0.4);
+  }
+
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 15px rgba(34, 158, 217, 0);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(34, 158, 217, 0);
+  }
+}
+
+.animate-tele-pulse {
+  animation: tele-pulse 2s infinite;
 }
 
 .animate-shake {

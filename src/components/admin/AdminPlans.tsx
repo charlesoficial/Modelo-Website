@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, Trash2, ChevronDown, ChevronUp, Zap, Star, Crown, Gem } from "lucide-react";
+import { Plus, Trash2, ChevronDown, ChevronUp, Zap, Star, Crown, Gem, CheckCircle2, Save } from "lucide-react";
 import { useSiteConfig, type Plan } from "@/lib/siteConfig";
 
 const ICONS = ["zap", "star", "crown", "gem"] as const;
@@ -35,42 +35,44 @@ const PlanEditor = ({
     const PlanIcon = IconMap[plan.icon as keyof typeof IconMap] || Star;
 
     return (
-        <div className="bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 shadow-lg">
+        <div className="admin-card !p-0 overflow-hidden">
             <button
                 type="button"
-                className="w-full flex items-center justify-between px-5 py-4 bg-zinc-900 text-left transition-colors hover:bg-zinc-800/50"
+                className="w-full flex items-center justify-between px-[18px] py-4 text-left transition-colors hover:bg-white/5"
                 onClick={() => setOpen((o) => !o)}
             >
                 <div className="flex items-center gap-3">
-                    <div className={`p-2 rounded-lg ${plan.active ? 'bg-orange-500/10 text-orange-500' : 'bg-zinc-800 text-zinc-500'}`}>
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center border border-white/5 ${plan.active ? 'bg-[#ff7a1a]/10 text-[#ff7a1a]' : 'bg-zinc-900 text-zinc-600'}`}>
                         <PlanIcon className="w-5 h-5" />
                     </div>
                     <div>
-                        <span className="font-bold text-sm block text-white">{plan.name}</span>
-                        <span className="text-zinc-500 text-xs">R${plan.price}/mês</span>
+                        <span className="font-bold text-[14px] text-white leading-tight block">{plan.name}</span>
+                        <span className="text-zinc-500 text-[12px]">R${plan.price}/mês</span>
                     </div>
                 </div>
                 <div className="flex items-center gap-3">
-                    {!plan.active && <span className="text-[10px] bg-zinc-800 text-zinc-500 px-2 py-0.5 rounded-full uppercase font-bold tracking-wider">Inativo</span>}
-                    {open ? <ChevronUp className="w-4 h-4 text-zinc-500" /> : <ChevronDown className="w-4 h-4 text-zinc-500" />}
+                    {!plan.active && <span className="text-[10px] bg-zinc-800 text-zinc-500 px-2.5 py-1 rounded-full uppercase font-bold tracking-tighter border border-white/5">Inativo</span>}
+                    <div className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`}>
+                        <ChevronDown size={18} className="text-zinc-600" />
+                    </div>
                 </div>
             </button>
 
             {open && (
-                <div className="px-5 pb-5 pt-2 space-y-5 bg-zinc-900 border-t border-zinc-800">
-                    <div className="grid grid-cols-2 gap-4">
+                <div className="px-[18px] pb-5 pt-2 space-y-[14px] border-t border-white/5 bg-zinc-900/40">
+                    <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-1.5">
-                            <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Nome</label>
+                            <span className="text-[12px] text-zinc-500 ml-1">Nome do Plano</span>
                             <input
-                                className="w-full bg-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+                                className="admin-input"
                                 value={plan.name}
                                 onChange={(e) => onChange({ ...plan, name: e.target.value })}
                             />
                         </div>
                         <div className="space-y-1.5">
-                            <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Preço (R$)</label>
+                            <span className="text-[12px] text-zinc-500 ml-1">Preço Mensal</span>
                             <input
-                                className="w-full bg-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+                                className="admin-input"
                                 value={plan.price}
                                 onChange={(e) => onChange({ ...plan, price: e.target.value })}
                             />
@@ -78,25 +80,27 @@ const PlanEditor = ({
                     </div>
 
                     <div className="space-y-1.5">
-                        <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Badge (ex: MAIS ESCOLHIDO)</label>
+                        <span className="text-[12px] text-zinc-500 ml-1">Destaque (Círio/Badge)</span>
                         <input
-                            className="w-full bg-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+                            className="admin-input"
+                            placeholder="Ex: MAIS ESCOLHIDO"
                             value={plan.label}
                             onChange={(e) => onChange({ ...plan, label: e.target.value })}
                         />
                     </div>
 
                     <div className="space-y-1.5">
-                        <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Link de Checkout</label>
+                        <span className="text-[12px] text-zinc-500 ml-1">Link de Checkout</span>
                         <input
-                            className="w-full bg-zinc-800 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+                            className="admin-input font-mono text-[11px]"
+                            placeholder="https://pay.exemplo.com/..."
                             value={plan.checkoutUrl}
                             onChange={(e) => onChange({ ...plan, checkoutUrl: e.target.value })}
                         />
                     </div>
 
-                    <div className="space-y-1.5">
-                        <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider block mb-2">Ícone</label>
+                    <div className="space-y-[14px]">
+                        <span className="admin-label">Ícone de Identificação</span>
                         <div className="grid grid-cols-4 gap-2">
                             {ICONS.map((icon) => {
                                 const Icon = IconMap[icon];
@@ -105,12 +109,12 @@ const PlanEditor = ({
                                         key={icon}
                                         type="button"
                                         onClick={() => onChange({ ...plan, icon })}
-                                        className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all ${plan.icon === icon
-                                                ? "border-orange-500 bg-orange-500/10 text-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.1)]"
-                                                : "border-zinc-800 bg-zinc-800/30 text-zinc-500 hover:border-zinc-700"
+                                        className={`flex flex-col items-center justify-center h-12 rounded-xl border transition-all ${plan.icon === icon
+                                            ? "border-[#ff7a1a] bg-[#ff7a1a]/10 text-[#ff7a1a] shadow-[0_0_15px_rgba(255,122,26,0.1)]"
+                                            : "border-white/5 bg-black/20 text-zinc-600 hover:border-white/10"
                                             }`}
                                     >
-                                        <Icon className="w-5 h-5" />
+                                        <Icon size={18} />
                                     </button>
                                 );
                             })}
@@ -118,41 +122,41 @@ const PlanEditor = ({
                     </div>
 
                     <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                            <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Benefícios</label>
-                            <button onClick={addFeature} className="text-orange-500 text-xs font-bold flex items-center gap-1 hover:text-orange-400 transition-colors">
-                                <Plus className="w-3 h-3" /> ADICIONAR
+                        <div className="flex items-center justify-between px-1">
+                            <span className="admin-label !mb-0 text-zinc-400">Benefícios inclusos</span>
+                            <button onClick={addFeature} className="text-[#ff7a1a] text-[11px] font-bold flex items-center gap-1 hover:opacity-80">
+                                <Plus size={14} /> ADICIONAR
                             </button>
                         </div>
                         <div className="space-y-2">
                             {plan.features.map((f, i) => (
                                 <div key={i} className="flex gap-2 items-center">
                                     <input
-                                        className="flex-1 bg-zinc-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
+                                        className="admin-input h-[36px] flex-1 text-[13px]"
                                         value={f}
                                         onChange={(e) => updateFeature(i, e.target.value)}
                                     />
-                                    <button onClick={() => removeFeature(i)} className="p-2.5 text-zinc-600 hover:text-red-500 transition-colors">
-                                        <Trash2 className="w-4 h-4" />
+                                    <button onClick={() => removeFeature(i)} className="w-[36px] h-[36px] flex items-center justify-center text-zinc-600 hover:text-red-500 transition-colors bg-black/20 rounded-lg">
+                                        <Trash2 size={16} />
                                     </button>
                                 </div>
                             ))}
                         </div>
                     </div>
 
-                    <div className="pt-2 flex flex-col gap-3">
-                        <div className="flex items-center justify-between bg-zinc-800/30 p-4 rounded-xl border border-zinc-800">
-                            <div className="flex flex-col">
-                                <span className="text-sm font-medium text-white">Status do Plano</span>
-                                <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">{plan.active ? "Ativo no site" : "Oculto no site"}</span>
+                    <div className="pt-2 space-y-3 border-t border-white/5 mt-4">
+                        <div className="flex items-center justify-between p-3 rounded-xl bg-black/20 border border-white/5">
+                            <div className="flex flex-col gap-0.5">
+                                <span className="text-[13px] font-medium text-white">Plano Ativo</span>
+                                <span className="text-[10px] text-zinc-600 font-bold uppercase tracking-wider">{plan.active ? "Visível no site" : "Oculto"}</span>
                             </div>
                             <button
                                 type="button"
                                 onClick={() => onChange({ ...plan, active: !plan.active })}
-                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 cursor-pointer ${plan.active ? "bg-white" : "bg-zinc-700"
+                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 cursor-pointer ${plan.active ? "bg-[#ff7a1a]" : "bg-zinc-800"
                                     }`}
                             >
-                                <span className={`absolute left-1 top-1 h-4 w-4 rounded-full transition-transform duration-300 ${plan.active ? "translate-x-5 bg-zinc-900" : "translate-x-0 bg-white"
+                                <span className={`absolute left-1 top-1 h-4 w-4 rounded-full transition-transform duration-300 shadow-sm ${plan.active ? "translate-x-5 bg-white" : "translate-x-0 bg-zinc-500"
                                     }`} />
                             </button>
                         </div>
@@ -160,9 +164,9 @@ const PlanEditor = ({
                         <button
                             type="button"
                             onClick={onDelete}
-                            className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border border-red-500/20 text-red-500 text-xs font-bold uppercase tracking-wider hover:bg-red-500/5 transition-all"
+                            className="w-full h-10 flex items-center justify-center gap-2 rounded-xl text-red-500/60 hover:text-red-500 hover:bg-red-500/5 transition-all text-[12px] font-bold uppercase tracking-wider"
                         >
-                            <Trash2 className="w-3.5 h-3.5" /> Remover este plano
+                            <Trash2 size={14} /> Excluir Plano
                         </button>
                     </div>
                 </div>
@@ -205,18 +209,21 @@ const AdminPlans = () => {
     };
 
     return (
-        <div className="space-y-6 pb-6 mt-2">
-            <div className="flex items-center justify-between mb-2">
-                <h2 className="text-lg font-bold text-white">Seus Planos</h2>
+        <div className="space-y-[24px] pb-6">
+            <div className="flex items-center justify-between px-1">
+                <div className="flex flex-col">
+                    <h2 className="text-[17px] font-bold text-white leading-tight">Configurar Assinaturas</h2>
+                    <p className="text-[12px] text-zinc-500">Gerencie seus planos de acesso</p>
+                </div>
                 <button
                     onClick={addPlan}
-                    className="bg-zinc-900 border border-orange-500/30 text-orange-500 px-4 py-2 rounded-xl text-xs font-bold hover:bg-orange-500/5 transition-all flex items-center gap-2"
+                    className="admin-btn-secondary h-[36px] px-4 text-[11px] font-bold flex items-center gap-2"
                 >
-                    <Plus className="w-4 h-4" /> NOVO PLANO
+                    <Plus size={14} /> NOVO PLANO
                 </button>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-[14px]">
                 {plans.map((plan, i) => (
                     <PlanEditor
                         key={plan.id}
@@ -227,9 +234,19 @@ const AdminPlans = () => {
                 ))}
             </div>
 
-            <button onClick={handleSave} className="w-full bg-orange-500 hover:bg-orange-600 transition-colors py-4 rounded-2xl font-bold text-white shadow-lg shadow-orange-500/20 uppercase tracking-widest text-sm">
-                {saved ? "✓ Salvo com sucesso!" : "Salvar Configurações"}
-            </button>
+            <div className="pt-2">
+                <button
+                    onClick={handleSave}
+                    disabled={saved}
+                    className={`admin-btn-primary w-full gap-2 transition-all ${saved ? "bg-green-600 shadow-[0_0_15px_rgba(22,163,74,0.3)]" : ""}`}
+                >
+                    {saved ? (
+                        <><CheckCircle2 size={18} /> Salvo com Sucesso!</>
+                    ) : (
+                        <><Save size={18} /> Salvar Todos os Planos</>
+                    )}
+                </button>
+            </div>
         </div>
     );
 };

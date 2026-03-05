@@ -31,6 +31,14 @@ export interface SiteConfig {
         ageRestriction: number;
         showSubscriberCount: boolean;
         showMediaCount: boolean;
+        telegram: {
+            enabled: boolean;
+            username: string;
+            link: string;
+            buttonColor: string;
+            tooltipText: string;
+            enableAnimation: boolean;
+        };
     };
     previews: {
         images: (string | null)[];
@@ -101,6 +109,14 @@ export const DEFAULT_CONFIG: SiteConfig = {
         ageRestriction: 18,
         showSubscriberCount: true,
         showMediaCount: true,
+        telegram: {
+            enabled: true,
+            username: "luizaVIP",
+            link: "https://t.me/luizaVIP",
+            buttonColor: "#229ED9",
+            tooltipText: "Comprar pelo Telegram",
+            enableAnimation: true,
+        },
     },
     previews: {
         images: [null, null, null],
@@ -122,7 +138,11 @@ export function loadConfigFromStorage(): SiteConfig {
                 ...parsed,
                 profile: { ...DEFAULT_CONFIG.profile, ...parsed.profile },
                 stats: { ...DEFAULT_CONFIG.stats, ...parsed.stats },
-                settings: { ...DEFAULT_CONFIG.settings, ...parsed.settings },
+                settings: {
+                    ...DEFAULT_CONFIG.settings,
+                    ...parsed.settings,
+                    telegram: { ...DEFAULT_CONFIG.settings.telegram, ...parsed.settings?.telegram }
+                },
                 previews: { ...DEFAULT_CONFIG.previews, ...parsed.previews },
             };
         }
